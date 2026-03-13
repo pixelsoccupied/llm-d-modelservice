@@ -36,6 +36,11 @@ spec:
               {{- end }}
             {{- end }}
     spec:
+      {{- if hasKey .Values.decode "terminationGracePeriodSeconds" }}
+      terminationGracePeriodSeconds: {{ .Values.decode.terminationGracePeriodSeconds }}
+      {{- else if and (hasKey .Values.decode "shutdownTimeout") (gt (int .Values.decode.shutdownTimeout) 0) }}
+      terminationGracePeriodSeconds: {{ add (int .Values.decode.shutdownTimeout) 30 }}
+      {{- end }}
       containers:
         - name: inference-server
           image: {{ .Values.requester.image }}
