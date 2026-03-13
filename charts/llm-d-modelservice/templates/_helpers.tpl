@@ -587,6 +587,10 @@ args:
   - {{ .Values.modelArtifacts.name | quote }}
 {{- /* Add tracing args */}}
 {{- (include "llm-d-modelservice.vllmTracingArgs" .) | nindent 2 }}
+{{- if and (hasKey .pdSpec "shutdownTimeout") (gt (int .pdSpec.shutdownTimeout) 0) }}
+  - --shutdown-timeout
+  - {{ .pdSpec.shutdownTimeout | quote }}
+{{- end }}
 {{- with .container.args }}
   {{ toYaml . | nindent 2 }}
 {{- end }}
@@ -617,6 +621,10 @@ args:
   - {{ .Values.modelArtifacts.name | quote }}
 {{- /* Add tracing args */}}
 {{- (include "llm-d-modelservice.vllmTracingArgs" .) | nindent 2 }}
+{{- if and (hasKey .pdSpec "shutdownTimeout") (gt (int .pdSpec.shutdownTimeout) 0) }}
+  - --shutdown-timeout
+  - {{ .pdSpec.shutdownTimeout | quote }}
+{{- end }}
 {{- with .container.args }}
   {{ toYaml . | nindent 2 }}
 {{- end }}

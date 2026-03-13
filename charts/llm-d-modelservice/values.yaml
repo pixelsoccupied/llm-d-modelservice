@@ -395,9 +395,20 @@ decode:
   # -- Not set by default (defaults to true if not specified).
   # enableServiceLinks: false
 
+  # @schema
+  # type: integer
+  # @schema
+  # shutdownTimeout -- vLLM --shutdown-timeout in seconds. When set to > 0, vLLM will wait
+  # -- for in-flight requests to complete before shutting down (requires vLLM >= 0.18.0).
+  # -- When shutdownTimeout > 0 and terminationGracePeriodSeconds is not explicitly set,
+  # -- terminationGracePeriodSeconds will be auto-calculated as shutdownTimeout + 30.
+  # -- Not set by default (vLLM default is 0, meaning immediate termination on SIGTERM).
+  # shutdownTimeout: 120
+
   # terminationGracePeriodSeconds -- Duration in seconds the pod needs to terminate gracefully.
-  # -- Not set by default (defaults to 30 seconds if not specified).
-  # terminationGracePeriodSeconds: 60
+  # -- When not set and shutdownTimeout > 0, auto-calculated as shutdownTimeout + 30.
+  # -- When not set and shutdownTimeout is 0 or unset, defaults to Kubernetes default (30 seconds).
+  # terminationGracePeriodSeconds: 150
 
   # subGroupPolicy -- object: SubGroupPolicy describes the policy that will be applied when creating subgroups in each replica.
   # -- Not set by default
@@ -602,9 +613,20 @@ prefill:
   # -- Not set by default (defaults to true if not specified).
   # enableServiceLinks: false
 
+  # @schema
+  # type: integer
+  # @schema
+  # shutdownTimeout -- vLLM --shutdown-timeout in seconds. When set to > 0, vLLM will wait
+  # -- for in-flight requests to complete before shutting down (requires vLLM >= 0.18.0).
+  # -- When shutdownTimeout > 0 and terminationGracePeriodSeconds is not explicitly set,
+  # -- terminationGracePeriodSeconds will be auto-calculated as shutdownTimeout + 30.
+  # -- Not set by default (vLLM default is 0, meaning immediate termination on SIGTERM).
+  # shutdownTimeout: 120
+
   # terminationGracePeriodSeconds -- Duration in seconds the pod needs to terminate gracefully.
-  # -- Not set by default (defaults to 30 seconds if not specified).
-  # terminationGracePeriodSeconds: 60
+  # -- When not set and shutdownTimeout > 0, auto-calculated as shutdownTimeout + 30.
+  # -- When not set and shutdownTimeout is 0 or unset, defaults to Kubernetes default (30 seconds).
+  # terminationGracePeriodSeconds: 150
 
   # subGroupPolicy -- object: SubGroupPolicy describes the policy that will be applied when creating subgroups in each replica.
   # -- Not set by default

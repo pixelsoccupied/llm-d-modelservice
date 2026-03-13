@@ -42,6 +42,8 @@ spec:
       {{- end }}
       {{- if hasKey .Values.prefill "terminationGracePeriodSeconds" }}
       terminationGracePeriodSeconds: {{ .Values.prefill.terminationGracePeriodSeconds }}
+      {{- else if and (hasKey .Values.prefill "shutdownTimeout") (gt (int .Values.prefill.shutdownTimeout) 0) }}
+      terminationGracePeriodSeconds: {{ add (int .Values.prefill.shutdownTimeout) 30 }}
       {{- end }}
       {{- (include "llm-d-modelservice.modelPod" (dict "role" "prefill" "pdSpec" .Values.prefill "Values" .Values "Release" .Release "Chart" .Chart)) | nindent 4 }}
       {{- if .Values.prefill.nodeSelector }}

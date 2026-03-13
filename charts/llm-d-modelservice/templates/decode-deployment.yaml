@@ -49,6 +49,8 @@ spec:
       {{- end }}
       {{- if hasKey .Values.decode "terminationGracePeriodSeconds" }}
       terminationGracePeriodSeconds: {{ .Values.decode.terminationGracePeriodSeconds }}
+      {{- else if and (hasKey .Values.decode "shutdownTimeout") (gt (int .Values.decode.shutdownTimeout) 0) }}
+      terminationGracePeriodSeconds: {{ add (int .Values.decode.shutdownTimeout) 30 }}
       {{- end }}
       {{- (include "llm-d-modelservice.modelPod" (dict "role" "decode" "pdSpec" .Values.decode "Values" .Values "Release" .Release "Chart" .Chart)) | nindent 4 }}
       {{- with .Values.decode.containers }}
